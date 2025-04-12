@@ -1,6 +1,9 @@
 package com.example.app.model;
 
 public enum Action {
+  SELECT,
+  UPDATE,
   INSERT,
-  DELETE
+  DELETE,
+  DROPPED_DATABASE
 }
