@@ -2,7 +2,6 @@ package com.example.app.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.data.cassandra.core.cql.Ordering;
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
 import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn;

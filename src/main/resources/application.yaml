@@ -1,0 +1,2 @@
+scylla:
+  port: 9042

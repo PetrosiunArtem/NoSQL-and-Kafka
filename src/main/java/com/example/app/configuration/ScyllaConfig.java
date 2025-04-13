@@ -7,15 +7,20 @@ import com.datastax.oss.driver.api.core.cql.SimpleStatement;
 import com.datastax.oss.driver.api.querybuilder.SchemaBuilder;
 import java.net.InetSocketAddress;
 import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class ScyllaConfig {
 
+  @Value("${scylla.port}")
+  private int port;
+
   @Bean
   public CqlSession cqlSession(CqlSessionBuilder sessionBuilder) {
-    InetSocketAddress address = InetSocketAddress.createUnresolved("127.0.0.1", 9042);
+    InetSocketAddress address = InetSocketAddress.createUnresolved("127.0.0.1", port);
     sessionBuilder = sessionBuilder.addContactPoint(address);
     sessionBuilder.withKeyspace((CqlIdentifier) null).withLocalDatacenter("datacenter1");
 
