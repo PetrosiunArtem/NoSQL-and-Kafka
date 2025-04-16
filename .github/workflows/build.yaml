@@ -2,9 +2,9 @@ name: Java CI Tests
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "feature/NoSQL" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "feature/NoSQL" ]
 
 jobs:
   build:
