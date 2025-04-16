@@ -6,9 +6,7 @@ import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
 import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn;
 import org.springframework.data.cassandra.core.mapping.Table;
-
 import java.time.Instant;
-import java.util.UUID;
 
 @Getter
 @AllArgsConstructor
@@ -16,7 +14,7 @@ import java.util.UUID;
 public class UserAudit {
 
   @PrimaryKeyColumn(value = "user_id", ordinal = 0, type = PrimaryKeyType.PARTITIONED)
-  private UUID userId;
+  private Long userId;
 
   @PrimaryKeyColumn(value = "event_time", ordinal = 1, type = PrimaryKeyType.CLUSTERED)
   private Instant eventTime;

@@ -35,7 +35,7 @@ public class ScyllaConfig {
       session.execute(
           """
             CREATE TABLE IF NOT EXISTS my_keyspace.user_audit (
-                user_id UUID,
+                user_id BIGINT,
                 event_time TIMESTAMP,
                 event_type TEXT,
                 event_details TEXT,

@@ -1,2 +1,10 @@
 scylla:
   port: 9042
+
+spring:
+  kafka:
+    bootstrap-servers: localhost:29093
+    consumer:
+      group-id: user_audit_group
+      enable-auto-commit: true
+topic-to-consume-message: user_audit_topic

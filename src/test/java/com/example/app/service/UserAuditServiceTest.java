@@ -13,7 +13,6 @@ import org.testcontainers.utility.DockerImageName;
 
 import java.time.Duration;
 import java.util.List;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -41,44 +40,41 @@ class UserAuditServiceTest {
 
   @Test
   void shouldSuccessfullyInsertUserAudit() {
-    UUID userId = UUID.randomUUID();
     String eventDetails = "test event";
-    userAuditService.insertUserAudit(userId, Action.INSERT, eventDetails);
+    userAuditService.insertUserAudit(1L, Action.INSERT, eventDetails);
     List<UserAudit> users = userAuditService.getAllUsers();
     assertFalse(users.isEmpty());
   }
 
   @Test
   void shouldSuccessfullyReadUserAudit() {
-    UUID userId = UUID.randomUUID();
     String eventDetails = "test event";
-    userAuditService.insertUserAudit(userId, Action.INSERT, eventDetails);
-    List<UserAudit> userAudits = userAuditService.readUserAudit(userId);
+    userAuditService.insertUserAudit(2L, Action.INSERT, eventDetails);
+    List<UserAudit> userAudits = userAuditService.readUserAudit(2L);
     assertEquals(1, userAudits.size());
   }
 
   @Test
   void shouldSuccessfullyGetAllUsers() {
-    userAuditService.insertUserAudit(UUID.randomUUID(), Action.INSERT, "test 1");
-    userAuditService.insertUserAudit(UUID.randomUUID(), Action.INSERT, "test 2");
-    userAuditService.insertUserAudit(UUID.randomUUID(), Action.INSERT, "test 3");
+    userAuditService.insertUserAudit(3L, Action.INSERT, "test 1");
+    userAuditService.insertUserAudit(4L, Action.INSERT, "test 2");
+    userAuditService.insertUserAudit(5L, Action.INSERT, "test 3");
     assertTrue(3 <= userAuditService.getAllUsers().size());
   }
 
   @Test
   void shouldFailToInsertUserAudit() {
-    UUID id = UUID.randomUUID();
     String eventDetails = "test event";
-    userAuditService.insertUserAudit(id, Action.INSERT, eventDetails);
-    userAuditService.insertUserAudit(id, Action.INSERT, eventDetails);
+    userAuditService.insertUserAudit(6L, Action.INSERT, eventDetails);
+    userAuditService.insertUserAudit(6L, Action.INSERT, eventDetails);
     List<UserAudit> users = userAuditService.getAllUsers();
     assertNotEquals(1, users.size());
   }
 
   @Test
   void shouldFailToReadUserAudit() {
-    UUID firstUserId = UUID.randomUUID();
-    UUID secondUserId = UUID.randomUUID();
+    Long firstUserId = 9L;
+    Long secondUserId = 10L;
     String eventDetails = "test event";
     userAuditService.insertUserAudit(firstUserId, Action.INSERT, eventDetails);
     userAuditService.insertUserAudit(secondUserId, Action.SELECT, eventDetails);
@@ -89,9 +85,9 @@ class UserAuditServiceTest {
 
   @Test
   void shouldFailToGetAllUsers() {
-    userAuditService.insertUserAudit(UUID.randomUUID(), Action.INSERT, "test 1");
-    userAuditService.insertUserAudit(UUID.randomUUID(), Action.INSERT, "test 2");
-    userAuditService.insertUserAudit(UUID.randomUUID(), Action.INSERT, "test 3");
+    userAuditService.insertUserAudit(11L, Action.INSERT, "test 1");
+    userAuditService.insertUserAudit(12L, Action.INSERT, "test 2");
+    userAuditService.insertUserAudit(13L, Action.INSERT, "test 3");
     assertNotEquals(1, userAuditService.getAllUsers().size());
   }
 }

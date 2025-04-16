@@ -5,16 +5,16 @@ import com.datastax.oss.driver.api.core.cql.BoundStatement;
 import com.datastax.oss.driver.api.core.cql.PreparedStatement;
 import com.datastax.oss.driver.api.core.cql.ResultSet;
 import com.datastax.oss.driver.api.core.cql.Row;
+import com.example.app.dto.MessageDto;
 import com.example.app.model.Action;
 import com.example.app.model.UserAudit;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -49,7 +49,7 @@ public class UserAuditService {
     this.selectUserAuditsStatement = session.prepare(SELECT_USER_AUDIT_QUERY);
   }
 
-  public void insertUserAudit(UUID userId, Action action, String eventDetails) {
+  public void insertUserAudit(Long userId, Action action, String eventDetails) {
     log.info("Inserting user audit for {} with action {}", userId, action);
     BoundStatement boundStatement =
         insertUserAuditStatement.bind(
@@ -57,7 +57,18 @@ public class UserAuditService {
     session.execute(boundStatement);
   }
 
-  public List<UserAudit> readUserAudit(UUID userId) {
+  public void saveMessage(MessageDto message) {
+    log.info("save message");
+    BoundStatement boundStatement =
+        insertUserAuditStatement.bind(
+            1L,
+            Instant.now(),
+            message.getAction().toString(),
+            message.getEventDetails());
+    session.execute(boundStatement);
+  }
+
+  public List<UserAudit> readUserAudit(Long userId) {
     log.info("Reading user audit for {}", userId);
     BoundStatement boundStatement = selectUserAuditsStatement.bind(userId);
     ResultSet result = session.execute(boundStatement);
@@ -65,7 +76,7 @@ public class UserAuditService {
     for (Row row : result.all()) {
       users.add(
           new UserAudit(
-              row.getUuid("user_id"),
+              row.getLong("user_id"),
               row.getInstant("event_time"),
               Action.valueOf(row.getString("event_type")),
               row.getString("event_details")));
@@ -80,7 +91,7 @@ public class UserAuditService {
     for (Row row : result.all()) {
       users.add(
           new UserAudit(
-              row.getUuid("user_id"),
+              row.getLong("user_id"),
               row.getInstant("event_time"),
               Action.valueOf(row.getString("event_type")),
               row.getString("event_details")));
