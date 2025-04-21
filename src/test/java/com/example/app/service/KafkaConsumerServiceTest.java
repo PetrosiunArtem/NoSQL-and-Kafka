@@ -62,6 +62,7 @@ class KafkaConsumerServiceTest {
 
   @BeforeAll
   static void setUp() {
+    System.setProperty("scylla.port", String.valueOf(scyllaDBContainer.getMappedPort(9042)));
     scyllaDBContainer.start();
   }
 
