@@ -26,20 +26,20 @@ public class UserAuditService {
 
   private static final String INSERT_INTO_USER_AUDIT_QUERY =
       """
-      INSERT INTO my_keyspace.user_audit (user_id, event_time, event_type, event_details)
+      INSERT INTO user_audit (user_id, event_time, event_type, event_details)
       VALUES (?, ?, ?, ?);
       """;
 
   private static final String SELECT_USER_AUDIT_QUERY =
       """
       SELECT user_id, event_time, event_type, event_details
-      FROM my_keyspace.user_audit
+      FROM user_audit
       WHERE user_id = ?;
       """;
   private static final String SELECT_ALL_USER_AUDIT_QUERY =
       """
       SELECT *
-      FROM my_keyspace.user_audit;
+      FROM user_audit;
       """;
 
   @Autowired
