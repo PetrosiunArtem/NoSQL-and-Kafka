@@ -8,6 +8,7 @@ import com.datastax.oss.driver.api.core.cql.Row;
 import com.example.app.dto.MessageDto;
 import com.example.app.model.Action;
 import com.example.app.model.UserAudit;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,19 +18,11 @@ import java.util.List;
 
 @Service
 @Log4j2
+@RequiredArgsConstructor
 public class UserAuditService {
   private final CqlSession session;
   private final PreparedStatement insertUserAuditStatement;
   private final PreparedStatement selectUserAuditsStatement;
-
-  public UserAuditService(
-      CqlSession session,
-      PreparedStatement insertUserAuditStatement,
-      PreparedStatement selectUserAuditsStatement) {
-    this.session = session;
-    this.insertUserAuditStatement = insertUserAuditStatement;
-    this.selectUserAuditsStatement = selectUserAuditsStatement;
-  }
 
   private static final String INSERT_INTO_USER_AUDIT_QUERY =
       """

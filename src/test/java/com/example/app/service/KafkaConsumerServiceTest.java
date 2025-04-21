@@ -31,13 +31,7 @@ import org.testcontainers.scylladb.ScyllaDBContainer;
 import org.testcontainers.utility.DockerImageName;
 import java.util.List;
 
-@SpringBootTest(
-    classes = {KafkaConsumerService.class},
-    properties = {
-      "topic-to-consume-message=your-test-topic",
-      "spring.kafka.consumer.group-id=some-consumer-group",
-      "spring.kafka.consumer.auto-offset-reset=earliest"
-    })
+@SpringBootTest(classes = {KafkaConsumerService.class})
 @Import({
   KafkaAutoConfiguration.class,
   KafkaTopicConfig.class,
@@ -68,7 +62,6 @@ class KafkaConsumerServiceTest {
 
   @BeforeAll
   static void setUp() {
-    System.setProperty("scylla.port", String.valueOf(scyllaDBContainer.getMappedPort(9042)));
     scyllaDBContainer.start();
   }
 
@@ -85,8 +78,8 @@ class KafkaConsumerServiceTest {
         .untilAsserted(
             () -> {
               List<UserAudit> usersAudits = userAuditService.getAllUsers();
-              assertEquals(messageDto.getId(), usersAudits.getFirst().getUserId());
-              assertEquals(messageDto.getAction(), usersAudits.getFirst().getEventType());
+              assertEquals(messageDto.getId(), usersAudits.getLast().getUserId());
+              assertEquals(messageDto.getAction(), usersAudits.getLast().getEventType());
             });
   }
 
